@@ -1,0 +1,20 @@
+# render.yaml
+services:
+  - type: web
+    name: juno-performance
+    runtime: python
+    repo: https://github.com/mariemhamdi-stack/render.git # Changez avec votre repo
+    plan: free
+    region: frankfurt  # ou ohio pour US
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_bKrXdeA4u2Jg@ep-mute-sun-apmuo8te-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_EMAIL
+        value: admin@pharma-saas.com
+      - key: ADMIN_PASSWORD
+        value: admin123

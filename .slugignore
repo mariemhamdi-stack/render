@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.db
+*.sqlite
+.DS_Store
+*.ipynb
+.env
+docker-compose.yml
+Dockerfile
+.gitignore
+.slugignore

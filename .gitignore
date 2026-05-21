@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+*.db
+*.sqlite
+.DS_Store
+venv/
+node_modules/
+frontend/
+*.csv
+Untitled-1.ipynb
