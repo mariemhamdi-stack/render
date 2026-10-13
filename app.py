@@ -1986,12 +1986,11 @@ def display_pro(app, product_code):
 
                 part = (objectif_n1 / total_gov_n1 *
                         100) if total_gov_n1 > 0 else 0
-
                 gov_data.append({
                     'Gouvernorat': g,
                     f'Objectif {year_n1_label}': objectif_n1,
                     'Poid %': part,
-                    'Évolution': evolution
+
                 })
 
             gov_df = pd.DataFrame(gov_data)
