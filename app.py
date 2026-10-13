@@ -2189,7 +2189,7 @@ def display_pro(app, product_code):
                     'Secteur': s,
                     f'Objectif {year_n1_label}': objectif_n1,
                     'Poid %': part,
-                    'Évolution': evolution
+
                 }
                 secteur_data.append(row)
 
