@@ -1902,8 +1902,7 @@ def display_pro(app, product_code):
                         ordered_cols.append(col_objectif)
                     if col_poids in gov_df.columns:
                         ordered_cols.append(col_poids)
-                    if col_evolution in gov_df.columns:
-                        ordered_cols.append(col_evolution)
+
                 gov_df = gov_df[ordered_cols]
                 
                 gov_df_display = gov_df.copy()
@@ -1912,8 +1911,7 @@ def display_pro(app, product_code):
                         continue
                     elif 'Poids de produit' in col:
                         gov_df_display[col] = gov_df_display[col].apply(lambda x: f"{float(x):.1f}%" if pd.notna(x) else "0%")
-                    elif 'Évolution de produit' in col:
-                        gov_df_display[col] = gov_df_display[col].apply(lambda x: f"{float(x):.1f}%" if pd.notna(x) else "0%")
+
                     else:
                         gov_df_display[col] = gov_df_display[col].apply(lambda x: f"{float(x):,.0f}" if pd.notna(x) else "0")
                 
@@ -2120,13 +2118,9 @@ def display_pro(app, product_code):
                     if s not in secteur_data:
                         secteur_data[s] = {'Secteur': s}
                     obj_n1 = sd.get('objectif_n1_corrige', sd.get('quantite', 0)) or 0
-                    reel_n = reels_par_secteur.get(s, 0)
+
                     secteur_data[s][col_objectif] = obj_n1
-                    if reel_n > 0:
-                        secteur_data[s][col_evolution] = ((obj_n1 - reel_n) / reel_n) * 100
-                    else:
-                        secteur_data[s][col_evolution] = 0
-            
+
             if secteur_data:
                 secteur_df = pd.DataFrame(list(secteur_data.values()))
                 secteur_df = secteur_df.sort_values('Secteur')
