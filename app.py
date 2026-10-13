@@ -1983,10 +1983,10 @@ def display_pro(app, product_code):
             gov_data = []
             for g, gd in gov_dist.items():
                 objectif_n1 = gov_n1_totals.get(g, gd.get('quantite', 0) or 0)
-                reel_n = gov_reels_n.get(g, 0)
+
                 part = (objectif_n1 / total_gov_n1 *
                         100) if total_gov_n1 > 0 else 0
-                evolution = ((objectif_n1 - reel_n) / reel_n * 100) if reel_n > 0 else 0
+
                 gov_data.append({
                     'Gouvernorat': g,
                     f'Objectif {year_n1_label}': objectif_n1,
@@ -2029,8 +2029,7 @@ def display_pro(app, product_code):
 
             if len(all_products_results) <= 1:
                 gov_export_cols = ['Gouvernorat', f'Objectif {year_n1_label}', 'Poid %']
-                if 'Évolution' in gov_df.columns:
-                    gov_export_cols.append('Évolution')
+
                 gov_simple_df = gov_df[gov_export_cols].copy()
                 gov_simple_df['Poid %'] = gov_simple_df['Poid %'].apply(lambda x: f"{float(x):.1f}%" if pd.notna(x) else "0%")
                 if 'Évolution' in gov_simple_df.columns:
@@ -2233,8 +2232,7 @@ def display_pro(app, product_code):
 
             if len(all_products_results) <= 1:
                 secteur_export_cols = ['Secteur', f'Objectif {year_n1_label}', 'Poid %']
-                if 'Évolution' in secteur_df.columns:
-                    secteur_export_cols.append('Évolution')
+
                 secteur_simple_df = secteur_df[secteur_export_cols].copy()
                 secteur_simple_df['Poid %'] = secteur_simple_df['Poid %'].apply(lambda x: f"{float(x):.1f}%" if pd.notna(x) else "0%")
                 if 'Évolution' in secteur_simple_df.columns:
