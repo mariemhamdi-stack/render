@@ -1864,18 +1864,7 @@ def display_pro(app, product_code):
                 product_totals[prod_name] = sum(gov_objectifs.values())
                 
                 col_objectif = f"Objectif {year_n1_display} de produit\n{prod_name}"
-                col_evolution = f"Évolution de produit\n{prod_name}"
-                
-                for g, objectif in gov_objectifs.items():
-                    if g not in gov_data:
-                        gov_data[g] = {'Gouvernorat': g}
-                    gov_data[g][col_objectif] = objectif
-                    reel_n = gov_reels_n.get(g, 0)
-                    if reel_n > 0:
-                        gov_data[g][col_evolution] = ((objectif - reel_n) / reel_n) * 100
-                    else:
-                        gov_data[g][col_evolution] = 0
-            
+              
             if gov_data:
                 gov_df = pd.DataFrame(list(gov_data.values()))
                 gov_df = gov_df.sort_values('Gouvernorat')
@@ -1902,8 +1891,7 @@ def display_pro(app, product_code):
                         ordered_cols.append(col_objectif)
                     if col_poids in gov_df.columns:
                         ordered_cols.append(col_poids)
-                    if col_evolution in gov_df.columns:
-                        ordered_cols.append(col_evolution)
+
                 gov_df = gov_df[ordered_cols]
                 
                 gov_df_display = gov_df.copy()
@@ -1912,8 +1900,7 @@ def display_pro(app, product_code):
                         continue
                     elif 'Poids de produit' in col:
                         gov_df_display[col] = gov_df_display[col].apply(lambda x: f"{float(x):.1f}%" if pd.notna(x) else "0%")
-                    elif 'Évolution de produit' in col:
-                        gov_df_display[col] = gov_df_display[col].apply(lambda x: f"{float(x):.1f}%" if pd.notna(x) else "0%")
+
                     else:
                         gov_df_display[col] = gov_df_display[col].apply(lambda x: f"{float(x):,.0f}" if pd.notna(x) else "0")
                 
@@ -1993,7 +1980,7 @@ def display_pro(app, product_code):
                     'Gouvernorat': g,
                     f'Objectif {year_n1_label}': objectif_n1,
                     'Poid %': part,
-                    'Évolution': evolution
+                    
                 })
 
             gov_df = pd.DataFrame(gov_data)
@@ -2004,11 +1991,10 @@ def display_pro(app, product_code):
                 f'Objectif {year_n1_label}'].apply(lambda x: f"{float(x):,.0f}")
             gov_df_display['Poid %'] = gov_df_display['Poid %'].apply(
                 lambda x: f"{float(x):.1f}%")
-            gov_df_display['Évolution'] = gov_df_display['Évolution'].apply(
-                lambda x: f"{float(x):.1f}%")
+
 
             gov_df_display = gov_df_display[[
-                'Gouvernorat', f'Objectif {year_n1_label}', 'Poid %', 'Évolution'
+                'Gouvernorat', f'Objectif {year_n1_label}', 'Poid %'
             ]]
             compact_col_config = {col: st.column_config.TextColumn(col, width="small") for col in gov_df_display.columns}
             st.dataframe(gov_df_display, use_container_width=True, hide_index=True, column_config=compact_col_config)
@@ -2109,23 +2095,7 @@ def display_pro(app, product_code):
                 # Nom de colonne avec retour à la ligne
                 col_objectif = f"Objectif {year_n1_display} de produit\n{prod_name}"
                 
-                col_evolution = f"Évolution de produit\n{prod_name}"
-                
-                prod_ecart_adj = prod_data.get('ecart_adjustments', [])
-                reels_par_secteur = {adj.get('secteur', ''): adj.get('valeur_realisee', 0) or 0 for adj in prod_ecart_adj}
-                
-                for s, sd in prod_secteur_dist.items():
-                    if s in secteurs_exclus:
-                        continue
-                    if s not in secteur_data:
-                        secteur_data[s] = {'Secteur': s}
-                    obj_n1 = sd.get('objectif_n1_corrige', sd.get('quantite', 0)) or 0
-                    reel_n = reels_par_secteur.get(s, 0)
-                    secteur_data[s][col_objectif] = obj_n1
-                    if reel_n > 0:
-                        secteur_data[s][col_evolution] = ((obj_n1 - reel_n) / reel_n) * 100
-                    else:
-                        secteur_data[s][col_evolution] = 0
+
             
             if secteur_data:
                 secteur_df = pd.DataFrame(list(secteur_data.values()))
@@ -2148,13 +2118,12 @@ def display_pro(app, product_code):
                     prod_name = prod_data.get('name', prod_code)
                     col_objectif = f"Objectif {year_n1_display} de produit\n{prod_name}"
                     col_poids = f"Poids de produit\n{prod_name}"
-                    col_evolution = f"Évolution de produit\n{prod_name}"
+
                     if col_objectif in secteur_df.columns:
                         ordered_cols.append(col_objectif)
                     if col_poids in secteur_df.columns:
                         ordered_cols.append(col_poids)
-                    if col_evolution in secteur_df.columns:
-                        ordered_cols.append(col_evolution)
+
                 secteur_df = secteur_df[ordered_cols]
                 
                 secteur_df_display = secteur_df.copy()
@@ -2198,7 +2167,7 @@ def display_pro(app, product_code):
                     'Secteur': s,
                     f'Objectif {year_n1_label}': objectif_n1,
                     'Poid %': part,
-                    'Évolution': evolution
+                    
                 }
                 secteur_data.append(row)
 
@@ -2210,11 +2179,10 @@ def display_pro(app, product_code):
                 f'Objectif {year_n1_label}'].apply(lambda x: f"{float(x):,.0f}")
             secteur_df_display['Poid %'] = secteur_df_display['Poid %'].apply(
                 lambda x: f"{float(x):.1f}%")
-            secteur_df_display['Évolution'] = secteur_df_display['Évolution'].apply(
-                lambda x: f"{float(x):.1f}%")
+
 
             secteur_df_display = secteur_df_display[[
-                'Secteur', f'Objectif {year_n1_label}', 'Poid %', 'Évolution'
+                'Secteur', f'Objectif {year_n1_label}', 'Poid %'
             ]]
             compact_col_config = {col: st.column_config.TextColumn(col, width="small") for col in secteur_df_display.columns}
             st.dataframe(secteur_df_display,
