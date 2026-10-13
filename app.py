@@ -2001,11 +2001,10 @@ def display_pro(app, product_code):
                 f'Objectif {year_n1_label}'].apply(lambda x: f"{float(x):,.0f}")
             gov_df_display['Poid %'] = gov_df_display['Poid %'].apply(
                 lambda x: f"{float(x):.1f}%")
-            gov_df_display['Évolution'] = gov_df_display['Évolution'].apply(
-                lambda x: f"{float(x):.1f}%")
+
 
             gov_df_display = gov_df_display[[
-                'Gouvernorat', f'Objectif {year_n1_label}', 'Poid %', 'Évolution'
+                'Gouvernorat', f'Objectif {year_n1_label}', 'Poid %'
             ]]
             compact_col_config = {col: st.column_config.TextColumn(col, width="small") for col in gov_df_display.columns}
             st.dataframe(gov_df_display, use_container_width=True, hide_index=True, column_config=compact_col_config)
