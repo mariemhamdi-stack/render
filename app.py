@@ -2184,10 +2184,10 @@ def display_pro(app, product_code):
             for s, sd in secteur_dist.items():
                 objectif_n1 = sd.get('objectif_n1_corrige', sd.get('quantite',
                                                                    0)) or 0
-                reel_n = reels_par_secteur.get(s, 0)
+
                 part = (objectif_n1 / total_n1_secteur *
                         100) if total_n1_secteur > 0 else 0
-                evolution = ((objectif_n1 - reel_n) / reel_n * 100) if reel_n > 0 else 0
+
                 row = {
                     'Secteur': s,
                     f'Objectif {year_n1_label}': objectif_n1,
@@ -2204,11 +2204,10 @@ def display_pro(app, product_code):
                 f'Objectif {year_n1_label}'].apply(lambda x: f"{float(x):,.0f}")
             secteur_df_display['Poid %'] = secteur_df_display['Poid %'].apply(
                 lambda x: f"{float(x):.1f}%")
-            secteur_df_display['Évolution'] = secteur_df_display['Évolution'].apply(
-                lambda x: f"{float(x):.1f}%")
+
 
             secteur_df_display = secteur_df_display[[
-                'Secteur', f'Objectif {year_n1_label}', 'Poid %', 'Évolution'
+                'Secteur', f'Objectif {year_n1_label}', 'Poid %'
             ]]
             compact_col_config = {col: st.column_config.TextColumn(col, width="small") for col in secteur_df_display.columns}
             st.dataframe(secteur_df_display,
